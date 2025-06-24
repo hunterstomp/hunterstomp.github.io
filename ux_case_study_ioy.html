@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASU IoY UX Case Study (Protected)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; max-width: 800px; margin: auto; }
+    .hidden { display: none; }
+    .section { margin-bottom: 30px; }
+    .highlight { background-color: #f9f9f9; padding: 10px; border-radius: 5px; }
+    .locked { text-align: center; padding: 40px; background-color: #f3f3f3; border-radius: 10px; }
+    input[type="password"], button { padding: 10px; margin-top: 10px; font-size: 1rem; }
+    .nda-text { font-size: 0.9rem; color: #555; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <div id="lockedSection" class="locked">
+    <h2>This case study is protected</h2>
+    <p>You must accept the NDA and enter your access key to continue.</p>
+    <label for="ndaAgree">
+      <input type="checkbox" id="ndaAgree" /> I agree not to copy, distribute, or disclose any part of this material.
+    </label>
+    <br />
+    <input type="password" id="ndaPassword" placeholder="Enter access key" />
+    <br />
+    <button onclick="unlockContent()">Unlock</button>
+    <div id="ndaError" class="nda-text"></div>
+  </div>
+
+  <div id="protectedContent" class="hidden">
+    <h1>ASU IoY Journey Maps: Hypertension & Diabetes</h1>
+
+    <div class="section">
+      <h2>Project Overview</h2>
+      <p>This project focused on creating clear and actionable UX journey maps for patients managing chronic conditions, specifically hypertension and diabetes, using the Internet of You (IoY) platform at Arizona State University.</p>
+    </div>
+
+    <div class="section">
+      <h2>UX Challenges</h2>
+      <ul>
+        <li>Lack of clear patient guidance for chronic disease management.</li>
+        <li>Difficulty tracking symptoms and vital signs effectively.</li>
+        <li>Patients feeling overwhelmed with data inputs and medical terminology.</li>
+      </ul>
+    </div>
+
+    <div class="section highlight">
+      <h2>Design Objectives</h2>
+      <ul>
+        <li>Simplify the patient journey through intuitive UI and actionable guidance.</li>
+        <li>Clearly visualize data tracking and symptom management for ease of use.</li>
+        <li>Ensure accessibility for a diverse patient demographic.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>UX Solutions</h2>
+      <ul>
+        <li>Developed distinct, easy-to-follow journey maps for hypertension and diabetes.</li>
+        <li>Designed user-friendly data entry forms with clear labeling and interactive feedback.</li>
+        <li>Implemented visual symptom trackers and progress indicators.</li>
+      </ul>
+    </div>
+
+    <div class="section highlight">
+      <h2>Impact & Outcomes</h2>
+      <ul>
+        <li>Improved patient adherence to chronic disease management routines.</li>
+        <li>Positive user feedback on clarity and ease-of-use.</li>
+        <li>Reduced patient anxiety regarding health data tracking.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Future Enhancements</h2>
+      <ul>
+        <li>Integrate predictive analytics to proactively alert patients of potential health issues.</li>
+        <li>Expand journey maps to cover additional chronic conditions.</li>
+        <li>Personalize content dynamically based on user interactions and health data.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const expectedPassword = "specialpass"; // Sync with your real access logic
+    const role = localStorage.getItem("persona") || "public";
+
+    if (role === "author") {
+      document.getElementById("lockedSection").style.display = "none";
+      document.getElementById("protectedContent").classList.remove("hidden");
+    }
+
+    function unlockContent() {
+      const agreed = document.getElementById("ndaAgree").checked;
+      const password = document.getElementById("ndaPassword").value;
+      const errorBox = document.getElementById("ndaError");
+
+      if (!agreed) {
+        errorBox.textContent = "⚠️ You must agree to the NDA to proceed.";
+        return;
+      }
+
+      if (password !== expectedPassword) {
+        errorBox.textContent = "❌ Incorrect access key.";
+        return;
+      }
+
+      document.getElementById("lockedSection").style.display = "none";
+      document.getElementById("protectedContent").classList.remove("hidden");
+      errorBox.textContent = "";
+    }
+  </script>
+
+</body>
+</html>

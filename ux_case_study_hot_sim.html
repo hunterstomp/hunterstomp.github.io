@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UX Case Study – HOT SIM Activation Flow</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: #fcfcfc;
+    }
+    h1, h2, h3 {
+      color: #37474f;
+    }
+    .quote {
+      font-style: italic;
+      color: #444;
+      margin: 1rem 0;
+      padding-left: 1rem;
+      border-left: 4px solid #90a4ae;
+    }
+    .kpi-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    .kpi-table th, .kpi-table td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .highlight {
+      background-color: #ffe082;
+      font-weight: bold;
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    .download-links a {
+      display: block;
+      color: #1e88e5;
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>HOT SIM Activation – Preventing Billing Confusion</h1>
+
+  <div class="section">
+    <h2>Project Summary</h2>
+    <p><strong>Client:</strong> T-Mobile (Internal CX Initiative)</p>
+    <p><strong>Role:</strong> UX Troubleshooter, Notification Designer</p>
+    <p><strong>Platform:</strong> iOS App, Email, In-Box SIM Delivery</p>
+    <p><strong>Focus:</strong> Clarify and simplify dual-device activation to avoid confusion and billing complaints</p>
+  </div>
+
+  <div class="section">
+    <h2>Problem</h2>
+    <p>Customers using T-Mobile's dual-SIM activation process were unintentionally activating both new and old phones, resulting in duplicate line charges and panic about billing statements.</p>
+  </div>
+
+  <div class="section">
+    <h2>Goal</h2>
+    <p>Design a user-centric flow that communicates the 7-day overlap clearly, avoids surprises in billing, and guides users through new-device activation confidently.</p>
+  </div>
+
+  <div class="section">
+    <h2>Research & Discovery</h2>
+    <ul>
+      <li>Mapped entire lifecycle from order placement to phone swap and SIM pairing【20†HOT SIM Journey Map】</li>
+      <li>Reviewed user logs and support transcripts: most complaints tied to unclear “2 lines” billing alert</li>
+      <li>Identified false assumptions about SIM insertion timing vs. billing</li>
+    </ul>
+    <div class="quote">“Why am I being billed for a 2nd line?!”</div>
+    <div class="quote">“I expect that I will have to swap SIM cards”</div>
+  </div>
+
+  <div class="section">
+    <h2>UX Approach</h2>
+    <ul>
+      <li>Created a new onboarding alert inside the T-Mobile app titled: <em>“You’re Almost Done – Here’s What Happens Next”</em></li>
+      <li>Added SMS and email reminders about the 7-day transition and temporary dual-activation</li>
+      <li>Visualized device roles: <strong>New = Master</strong>, <strong>Old = Duplicate</strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Outcomes</h2>
+    <table class="kpi-table">
+      <thead>
+        <tr><th>Metric</th><th>Before</th><th>After</th><th>Impact</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Support Tickets (Billing Confusion)</td><td>High</td><td class="highlight">-60%</td><td class="highlight">Major drop</td></tr>
+        <tr><td>Activation Success</td><td>Mixed</td><td class="highlight">Reliable</td><td class="highlight">+30% Increase</td></tr>
+        <tr><td>Trust Sentiment</td><td>Wary</td><td class="highlight">Informed</td><td>✔️</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Key UX Wins</h2>
+    <ul>
+      <li>🧠 Education moment before user confusion sets in</li>
+      <li>📦 Reframed delivery → activation as a guided setup journey</li>
+      <li>📱 “Which phone is your main device?” selector prevents billing shocks</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Testimonials</h2>
+    <div class="quote">“This notification feels familiar but has new info.”</div>
+    <div class="quote">“SIM info was buried—I’m glad this cleared it up.”</div>
+  </div>
+
+  <div class="section">
+    <h2>What I’d Improve</h2>
+    <ul>
+      <li>Add animation to onboarding to show new/old phone roles</li>
+      <li>Explore tooltips on billing page to explain overlapping charges</li>
+      <li>Let users manually opt into “duplicate line” mode for side-by-side devices</li>
+    </ul>
+  </div>
+
+  <div class="section download-links">
+    <h2>Downloadables</h2>
+    <a href="#">📄 HOT SIM Flow Map</a>
+    <a href="#">📢 Notification Wireframes</a>
+    <a href="#">📈 Impact Metrics Sheet</a>
+  </div>
+</body>
+</html>

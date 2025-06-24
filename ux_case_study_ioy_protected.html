@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UX Case Study – ASU IoY</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; max-width: 800px; margin: auto; }
+    .hidden { display: none; }
+    .section { margin-bottom: 30px; }
+    .highlight { background-color: #f9f9f9; padding: 10px; border-radius: 5px; }
+    .locked { text-align: center; padding: 40px; background-color: #f3f3f3; border-radius: 10px; }
+    input[type="password"], button { padding: 10px; margin-top: 10px; font-size: 1rem; }
+    .nda-text { font-size: 0.9rem; color: #555; margin-top: 10px; }
+    .request-link { margin-top: 20px; display: block; font-size: 0.9rem; }
+    .nav-links { margin-bottom: 20px; }
+    .nav-links a { margin-right: 15px; font-size: 0.9rem; color: #007acc; text-decoration: none; }
+    .gallery-filters { margin: 10px 0; }
+    .gallery-filters button { margin-right: 5px; padding: 5px 10px; font-size: 0.9rem; }
+    .gallery-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+    .gallery-item { width: 120px; height: 80px; object-fit: cover; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; }
+    .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+    .lightbox-content { background: #fff; padding: 20px; border-radius: 5px; max-width: 90%; display: flex; flex-direction: row; }
+    .lightbox img { max-width: 500px; max-height: 80vh; }
+    .lightbox-sidebar { margin-left: 20px; max-width: 250px; }
+    .close-btn { position: absolute; top: 20px; right: 30px; font-size: 2rem; color: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div id="lockedSection" class="locked">
+    <h2>This case study is protected</h2>
+    <p>You must accept the NDA and enter your access key to continue.</p>
+    <label for="ndaAgree">
+      <input type="checkbox" id="ndaAgree" /> I agree not to copy, distribute, or disclose any part of this material.
+    </label>
+    <br />
+    <input type="password" id="ndaPassword" placeholder="Enter access key" />
+    <br />
+    <button onclick="unlockContent()">Unlock</button>
+    <div id="ndaError" class="nda-text"></div>
+    <a class="request-link" href="mailto:design@q10ux.com?subject=Password%20Requested&body=Hi%20Alice%2C%0A%0AI%E2%80%99m%20requesting%20VIP%20access%20to%20your%20UX%20case%20studies.%20Here%E2%80%99s%20my%20info%3A%0A%0AName%3A%20%5BYour%20Name%5D%0ACompany%3A%20%5BCompany%5D%0APurpose%3A%20%5BWhat%20you%E2%80%99re%20looking%20for%5D%0A%0AThanks!" target="_blank">Request VIP access via email</a>
+  </div>
+
+  <div id="protectedContent" class="hidden">
+    <h1>ASU IoY Journey Maps: Hypertension & Diabetes</h1>
+
+    <div class="nav-links">
+      <a href="#summary">Summary</a>
+      <a href="#challenges">Challenges</a>
+      <a href="#objectives">Objectives</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#impact">Outcomes</a>
+      <a href="#future">Future</a>
+      <a href="#video">Video</a>
+    </div>
+
+    <div id="summary" class="section">
+      <h2>Project Summary</h2>
+      <p>This project focused on creating clear and actionable UX journey maps for patients managing chronic conditions, specifically hypertension and diabetes, using the Internet of You (IoY) platform at Arizona State University.</p>
+    </div>
+
+    <div id="challenges" class="section">
+      <h2>UX Challenges</h2>
+      <ul>
+        <li>Lack of clear patient guidance for chronic disease management.</li>
+        <li>Difficulty tracking symptoms and vital signs effectively.</li>
+        <li>Patients feeling overwhelmed with data inputs and medical terminology.</li>
+      </ul>
+    </div>
+
+    <div id="objectives" class="section highlight">
+      <h2>Design Objectives</h2>
+      <ul>
+        <li>Simplify the patient journey through intuitive UI and actionable guidance.</li>
+        <li>Clearly visualize data tracking and symptom management for ease of use.</li>
+        <li>Ensure accessibility for a diverse patient demographic.</li>
+      </ul>
+    </div>
+
+    <div id="gallery" class="section">
+      <h2>Design Gallery</h2>
+      <div class="gallery-filters">
+        <button onclick="filterGallery('all')">All</button>
+        <button onclick="filterGallery('flow')">Flow</button>
+        <button onclick="filterGallery('wireframe')">Wireframe</button>
+        <button onclick="filterGallery('data')">Data</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
+        <img src="images/sample1.jpg" class="gallery-item" data-tags="flow" alt="Flow 1" onclick="openLightbox(this)" />
+        <img src="images/sample2.jpg" class="gallery-item" data-tags="wireframe" alt="Wireframe 1" onclick="openLightbox(this)" />
+        <img src="images/sample3.jpg" class="gallery-item" data-tags="data" alt="Data 1" onclick="openLightbox(this)" />
+        <img src="images/sample4.jpg" class="gallery-item" data-tags="flow" alt="Flow 2" onclick="openLightbox(this)" />
+      </div>
+    </div>
+
+    <div id="solutions" class="section">
+      <h2>UX Solutions</h2>
+      <ul>
+        <li>Developed distinct, easy-to-follow journey maps for hypertension and diabetes.</li>
+        <li>Designed user-friendly data entry forms with clear labeling and interactive feedback.</li>
+        <li>Implemented visual symptom trackers and progress indicators.</li>
+      </ul>
+    </div>
+
+    <div id="impact" class="section highlight">
+      <h2>Impact & Outcomes</h2>
+      <ul>
+        <li>Improved patient adherence to chronic disease management routines.</li>
+        <li>Positive user feedback on clarity and ease-of-use.</li>
+        <li>Reduced patient anxiety regarding health data tracking.</li>
+      </ul>
+    </div>
+
+    <div id="future" class="section">
+      <h2>Future Enhancements</h2>
+      <ul>
+        <li>Integrate predictive analytics to proactively alert patients of potential health issues.</li>
+        <li>Expand journey maps to cover additional chronic conditions.</li>
+        <li>Personalize content dynamically based on user interactions and health data.</li>
+      </ul>
+    </div>
+
+    <div id="video" class="section">
+      <h2>Case Study Video Walkthrough</h2>
+      <iframe width="100%" height="400" src="https://www.youtube.com/embed/your_video_id_here" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox hidden" onclick="closeLightbox(event)">
+    <div class="lightbox-content">
+      <img id="lightboxImage" src="" alt="Expanded View" />
+      <div class="lightbox-sidebar">
+        <h3>Notes</h3>
+        <p contenteditable="true">(Author notes about the flow, design, etc.)</p>
+      </div>
+    </div>
+    <span class="close-btn" onclick="closeLightbox(event)">&times;</span>
+  </div>
+
+  <script>
+    const expectedPassword = "specialpass";
+    const role = localStorage.getItem("persona") || "guest";
+
+    if (role === "author") {
+      document.getElementById("lockedSection").style.display = "none";
+      document.getElementById("protectedContent").classList.remove("hidden");
+    }
+
+    function unlockContent() {
+      const agreed = document.getElementById("ndaAgree").checked;
+      const password = document.getElementById("ndaPassword").value;
+      const errorBox = document.getElementById("ndaError");
+
+      if (!agreed) {
+        errorBox.textContent = "⚠️ You must agree to the NDA to proceed.";
+        return;
+      }
+
+      if (password !== expectedPassword) {
+        errorBox.textContent = "❌ Incorrect access key.";
+        return;
+      }
+
+      document.getElementById("lockedSection").style.display = "none";
+      document.getElementById("protectedContent").classList.remove("hidden");
+      errorBox.textContent = "";
+    }
+
+    function openLightbox(img) {
+      document.getElementById("lightboxImage").src = img.src;
+      document.getElementById("lightbox").classList.remove("hidden");
+    }
+
+    function closeLightbox(e) {
+      if (e.target.id === "lightbox" || e.target.className === "close-btn") {
+        document.getElementById("lightbox").classList.add("hidden");
+      }
+    }
+
+    function filterGallery(tag) {
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach(item => {
+        const tags = item.getAttribute('data-tags');
+        if (tag === 'all' || tags.includes(tag)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
