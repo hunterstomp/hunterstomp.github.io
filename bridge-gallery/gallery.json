@@ -1,0 +1,44 @@
+{
+  "categories": [
+    {
+      "id": "ux",
+      "label": "UX & Interaction",
+      "images": [
+        {
+          "src": "images/optimized/chatflow.jpg",
+          "thumb": "images/thumbs/chatflow.jpg",
+          "alt": "Chatbot UX",
+          "keywords": [
+            "ux",
+            "chatbot",
+            "retail"
+          ]
+        },
+        {
+          "src": "images/optimized/accessibility.png",
+          "thumb": "images/thumbs/accessibility.png",
+          "alt": "Accessible UX",
+          "keywords": [
+            "ux",
+            "accessibility"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prototypes",
+      "label": "Prototypes & Flows",
+      "images": [
+        {
+          "src": "images/optimized/prototype.jpg",
+          "thumb": "images/thumbs/prototype.jpg",
+          "alt": "Retail Prototype",
+          "keywords": [
+            "retail",
+            "prototype"
+          ]
+        }
+      ]
+    }
+  ]
+}

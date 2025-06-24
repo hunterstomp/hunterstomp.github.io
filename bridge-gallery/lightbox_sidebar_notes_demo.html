@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Case Study Lightbox with Notes</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+    .gallery-img { width: 150px; cursor: pointer; margin: 10px; border: 2px solid #ccc; }
+    .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.9); justify-content: center; align-items: center; z-index: 9999; }
+    .lightbox-content { display: flex; background: #111; max-width: 90%; max-height: 90%; width: 90%; border-radius: 10px; overflow: hidden; }
+    .lightbox-img { max-height: 90vh; max-width: 70vw; object-fit: contain; flex-shrink: 0; background: #000; }
+    .sidebar { width: 300px; padding: 20px; background: #222; color: #eee; overflow-y: auto; }
+    .sidebar[contenteditable="true"] { outline: 2px dashed #444; }
+    .close-btn { position: absolute; top: 20px; right: 20px; font-size: 30px; color: white; cursor: pointer; }
+    .export-btn { position: fixed; top: 20px; left: 20px; z-index: 10000; background: #28a745; color: white;
+                  border: none; padding: 10px 15px; font-size: 14px; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<button class="export-btn" onclick="exportNotes()">⬇️ Export Notes</button>
+
+<h2 style="padding: 1rem;">Click image to view with sidebar notes</h2>
+<img src="images/optimized/chatflow.jpg" class="gallery-img" onclick="openLightbox('images/optimized/chatflow.jpg', 'case-study')" />
+
+<div class="lightbox" id="lightbox">
+  <div class="close-btn" onclick="closeLightbox()">×</div>
+  <div class="lightbox-content">
+    <img id="lightbox-img" class="lightbox-img" src="" />
+    <div id="sidebar" class="sidebar" contenteditable="true" style="display: none;" oninput="saveNote()">
+      <h3>Case Study Notes</h3>
+      <p>Write your thoughts about the UX process here. These notes are editable by you and saved automatically.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentImgSrc = '';
+
+  function openLightbox(src, tag) {
+    document.getElementById('lightbox').style.display = 'flex';
+    document.getElementById('lightbox-img').src = src;
+    currentImgSrc = src;
+    const sidebar = document.getElementById('sidebar');
+    if (tag === 'case-study') {
+      sidebar.style.display = 'block';
+      sidebar.innerHTML = localStorage.getItem('note-' + src) || "<h3>Case Study Notes</h3><p>Write your thoughts about the UX process here.</p>";
+    } else {
+      sidebar.style.display = 'none';
+    }
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+
+  function saveNote() {
+    const sidebar = document.getElementById('sidebar');
+    localStorage.setItem('note-' + currentImgSrc, sidebar.innerHTML);
+  }
+
+  function exportNotes() {
+    const notes = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k.startsWith('note-')) {
+        notes[k.replace('note-', '')] = localStorage.getItem(k);
+      }
+    }
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(notes, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "case_study_notes.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  }
+</script>
+
+</body>
+</html>
