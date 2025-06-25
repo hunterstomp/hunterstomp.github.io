@@ -294,7 +294,7 @@ export default function CaseStudyDetail({ caseStudy }) {
                 >
                   <img 
                     src={img.asset?.url} 
-                    alt={img.caption || ""} 
+                    alt={img.caption || img.asset?._id || 'Case study image'} 
                     style={{ 
                       width: "100%", 
                       height: "150px", 

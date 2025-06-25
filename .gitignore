@@ -1,0 +1,27 @@
+# Ignore optimized images and binaries
+/thumbnails/
+/full/
+/images/
+*.zip
+*.mp4
+*.mov
+*.avi
+*.webm
+*.tar
+*.rar
+*.7z
+*.gz
+*.bak
+
+# Sanity/export artifacts
+*.ndjson
+/export/
+*.bak
+
+# Ignore OS/editor cruft
+.DS_Store
+Thumbs.db
+
+# Ignore environment files
+.env
+.env.*

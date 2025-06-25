@@ -30,7 +30,34 @@
 - [ ] [SEO] Sitemap, meta tags, page titles set
 - [ ] [A11y] All images have alt text, Lighthouse/axe checks clean
 
+---## Asset & Binary File Policy
+
+- Original source images for portfolio projects are never altered or deleted by scripts.
+- Optimized images (thumbnails, full) are generated in `/thumbnails/` and `/full/` folders, which are ignored by git.
+- All large binaries (ZIP, video, exports, NDJSON) must **not** be checked into the git repo.  
+  - Use Google Drive, Dropbox, S3, or a public CDN to store/share these files.
+  - In the repo, reference external asset links in the relevant markdown or documentation files.
+
+### Moving Existing Binaries Out of Git
+
+If you have already checked in large binaries:
+1. Move the file(s) to your external storage (Google Drive, etc.)
+2. Replace the file in your repo with a small `.md` or `.txt` link file, e.g.:
+    ```
+    # Moved to external storage
+    This asset is now stored at: https://drive.google.com/xyz123abc
+    ```
+3. Remove from git tracking:
+    ```
+    git rm --cached path/to/bigfile.zip
+    ```
+4. Add the file or folder to your `.gitignore`
+5. Commit the change
+
 ---
+
+**All contributors:**  
+Never add raw images, videos, or large exports to the repo! Use links/reference files only.
 
 ## 📝 How to Add a New Case Study (Contributor Guide)
 
