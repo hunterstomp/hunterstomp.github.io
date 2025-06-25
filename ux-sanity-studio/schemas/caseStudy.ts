@@ -9,6 +9,8 @@ export default defineType({
     defineField({ name: 'slug', type: 'slug', title: 'Slug', options: { source: 'title' } }),
     defineField({ name: 'summary', type: 'text', title: 'Summary' }),
     defineField({ name: 'personaAccess', type: 'string', title: 'Access Level', options: { list: ['guest', 'vip', 'author'] } }),
+    defineField({ name: 'tags', type: 'array', of: [{type: 'string'}], title: 'Tags' }),
+    defineField({ name: 'body', type: 'array', of: [{type: 'block'}], title: 'Case Study Body' }),
     defineField({ name: 'youtubeEmbed', type: 'url', title: 'YouTube Embed Link' }),
     defineField({ name: 'ndaProtected', type: 'boolean', title: 'NDA Required?' }),
     defineField({ name: 'password', type: 'string', title: 'Password' }),
