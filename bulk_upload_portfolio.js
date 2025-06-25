@@ -27,7 +27,21 @@ function isImage(file) {
 function isAsset(file) {
   return ASSET_EXTS.includes(path.extname(file).toLowerCase());
 }
+function saveOptimizedImage(srcPath, destDir, fileName, buffer) {
+  // Ensure destination exists
+  if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
 
+  let destPath = path.join(destDir, fileName);
+  // Avoid overwrite: add timestamp if file exists
+  if (fs.existsSync(destPath)) {
+    const { name, ext } = path.parse(fileName);
+    const uniqueName = `${name}_${Date.now()}${ext}`;
+    destPath = path.join(destDir, uniqueName);
+    console.log(`Warning: File exists, saving as ${uniqueName}`);
+  }
+  fs.writeFileSync(destPath, buffer);
+  return destPath;
+}
 // Util: Convert filename to caption
 function filenameToCaption(filename) {
   return sanitize(path.parse(filename).name.replace(/[_\-]/g, ' ')).replace(/\s+/g, ' ').trim();

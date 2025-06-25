@@ -1,0 +1,8 @@
+# Moved to external storage
+
+This file was moved to cloud storage to keep the repository lightweight.
+
+**Access here:**  
+https://drive.google.com/file/d/1ut8oYvJ2_9T9HcKlrKxLzzSSdF2VdQxc/view?usp=share_link
+
+If you need access, contact [Your Name] or the project maintainer.

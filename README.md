@@ -29,7 +29,19 @@
 ## SEO & A11y
 - [ ] [SEO] Sitemap, meta tags, page titles set
 - [ ] [A11y] All images have alt text, Lighthouse/axe checks clean
+## 📦 Asset & Binary Handling
 
+- All image and video originals remain untouched by scripts.
+- All optimized images go into `/thumbnails/` and `/full/` (these folders are gitignored).
+- Never commit ZIP, video, export, or NDJSON files to git.
+- For large files, upload to Google Drive/Dropbox/S3/CDN and reference with a link in the docs.
+- If you’ve already checked in binaries:
+    1. Move to external storage and paste a `.link.txt` stub in their place.
+    2. Run `git rm --cached path/to/file`.
+    3. Add pattern to `.gitignore`.
+    4. Commit and push.
+
+**All contributors: Keep the repo clean and lightweight!**
 ---## Asset & Binary File Policy
 
 - Original source images for portfolio projects are never altered or deleted by scripts.
