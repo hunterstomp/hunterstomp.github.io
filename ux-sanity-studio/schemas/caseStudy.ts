@@ -1,20 +1,51 @@
-import { defineType, defineField } from 'sanity'
-
-export default defineType({
+export default {
   name: 'caseStudy',
   title: 'UX Case Study',
   type: 'document',
   fields: [
-    defineField({ name: 'title', type: 'string', title: 'Title' }),
-    defineField({ name: 'slug', type: 'slug', title: 'Slug', options: { source: 'title' } }),
-    defineField({ name: 'summary', type: 'text', title: 'Summary' }),
-    defineField({ name: 'personaAccess', type: 'string', title: 'Access Level', options: { list: ['guest', 'vip', 'author'] } }),
-    defineField({ name: 'tags', type: 'array', of: [{type: 'string'}], title: 'Tags' }),
-    defineField({ name: 'body', type: 'array', of: [{type: 'block'}], title: 'Case Study Body' }),
-    defineField({ name: 'youtubeEmbed', type: 'url', title: 'YouTube Embed Link' }),
-    defineField({ name: 'ndaProtected', type: 'boolean', title: 'NDA Required?' }),
-    defineField({ name: 'password', type: 'string', title: 'Password' }),
-    defineField({
+    {
+      name: 'title',
+      type: 'string',
+      title: 'Title',
+      validation: (Rule: any) => Rule.required()
+    },
+    {
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
+      options: {
+        source: 'title',
+        maxLength: 96
+      },
+      validation: (Rule: any) => Rule.required()
+    },
+    { name: 'company', type: 'string', title: 'Company' },
+    { name: 'summary', type: 'text', title: 'Summary' },
+    { 
+      name: 'personaAccess', 
+      type: 'string', 
+      title: 'Access Level', 
+      options: { 
+        list: ['guest', 'vip', 'author'] 
+      } 
+    },
+    { name: 'youtubeEmbed', type: 'url', title: 'YouTube Embed Link' },
+    { name: 'ndaProtected', type: 'boolean', title: 'NDA Required?' },
+    {
+      name: 'tags',
+      type: 'array',
+      title: 'Tags',
+      of: [{ type: 'string' }],
+      description: 'Keywords for filtering and search (e.g. healthcare, NDA, triage)'
+    },
+    {
+      name: 'body',
+      type: 'array',
+      title: 'Case Study Body',
+      of: [{ type: 'block' }],
+      description: 'Rich text/portable text for main narrative or summary'
+    },
+    {
       name: 'flows',
       title: 'Flows',
       type: 'array',
@@ -24,9 +55,9 @@ export default defineType({
           title: 'Flow',
           type: 'object',
           fields: [
-            defineField({ name: 'flowName', type: 'string', title: 'Flow Name' }), // e.g., Discovery, Usability Test 1
-            defineField({ name: 'flowDescription', type: 'text', title: 'Flow Description' }),
-            defineField({
+            { name: 'flowName', type: 'string', title: 'Flow Name' }, // e.g., Discovery, Usability Test 1
+            { name: 'flowDescription', type: 'text', title: 'Flow Description' },
+            {
               name: 'images',
               title: 'Images',
               type: 'array',
@@ -36,15 +67,31 @@ export default defineType({
                   type: 'image',
                   title: 'Case Image',
                   fields: [
-                    defineField({ name: 'caption', type: 'string', title: 'Caption' }),
-                    defineField({ name: 'notes', type: 'text', title: 'Sidebar Notes' })
+                    { name: 'caption', type: 'string', title: 'Caption' },
+                    { name: 'notes', type: 'text', title: 'Sidebar Notes' }
                   ]
                 }
               ]
-            })
+            }
           ]
         }
       ]
-    })
+    },
+    {
+      name: 'assets',
+      title: 'Assets',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'file', type: 'file', title: 'File' },
+            { name: 'label', type: 'string', title: 'Label/Title' },
+            { name: 'description', type: 'text', title: 'Description', description: 'Optional notes or context for this asset.' }
+          ]
+        }
+      ],
+      description: 'Non-image downloads (PDFs, docs, etc.)'
+    }
   ]
-})
+}

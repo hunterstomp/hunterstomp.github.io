@@ -8,11 +8,14 @@
     "deploy": "sanity deploy"
   },
   "dependencies": {
+    "@portabletext/react": "^3.2.1",
     "@sanity/cli": "^3.0.0",
-    "@sanity/vision": "^3.94.2",
+    "@sanity/client": "^7.6.0",
+    "@sanity/vision": "^2.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sanity": "^3.0.0",
+    "react-is": "^19.1.0",
+    "sanity": "^2.36.6",
     "styled-components": "^6.1.19",
     "typescript": "^5.0.0"
   }
