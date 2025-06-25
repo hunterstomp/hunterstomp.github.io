@@ -17,7 +17,7 @@ export default defineType({
       title: 'Flows',
       type: 'array',
       of: [
-        defineType({
+        {
           name: 'flow',
           title: 'Flow',
           type: 'object',
@@ -29,7 +29,7 @@ export default defineType({
               title: 'Images',
               type: 'array',
               of: [
-                defineType({
+                {
                   name: 'caseImage',
                   type: 'image',
                   title: 'Case Image',
@@ -37,11 +37,11 @@ export default defineType({
                     defineField({ name: 'caption', type: 'string', title: 'Caption' }),
                     defineField({ name: 'notes', type: 'text', title: 'Sidebar Notes' })
                   ]
-                })
+                }
               ]
             })
           ]
-        })
+        }
       ]
     })
   ]
