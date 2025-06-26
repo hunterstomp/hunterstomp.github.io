@@ -89,6 +89,72 @@ const getAnimConfigs = (width) => {
   ];
 };
 
+// Global scale factor for all animated elements (easy to tweak)
+const ELEMENT_SCALE = 0.75;
+const BLEED_MULTIPLIER = 2.2; // Increase for more dramatic off-canvas bleed
+
+function GridPaperSVG({ width, height, orientation }) {
+  // Grid settings
+  const gridSize = 24; // px per square
+  const borderColor = '#1a3555'; // dark blue border
+  const gridColor = '#6ec1e4'; // light blue grid
+  const borderWidth = 2.5;
+  const gridWidth = 1;
+  // 25px margin on left/right
+  const svgW = Math.max(0, width - 50);
+  const svgH = Math.max(0, height - 50);
+  const cols = Math.floor(svgW / gridSize);
+  const rows = Math.floor(svgH / gridSize);
+  const gridW = cols * gridSize;
+  const gridH = rows * gridSize;
+  return (
+    <svg
+      width={gridW}
+      height={gridH}
+      viewBox={`0 0 ${gridW} ${gridH}`}
+      style={{
+        position: 'absolute',
+        left: 25,
+        right: 25,
+        top: '50%',
+        transform: `translateY(-50%) rotate(${orientation === 'portrait' ? 90 : 0}deg)`,
+        zIndex: 1, // lowest layer
+        background: '#fff',
+        boxShadow: '0 4px 32px rgba(0,0,0,0.08)',
+        borderRadius: 8,
+        pointerEvents: 'none',
+        display: 'block',
+        margin: '0 auto',
+      }}
+      aria-hidden="true"
+      focusable="false"
+    >
+      {/* Grid lines */}
+      <g stroke={gridColor} strokeWidth={gridWidth}>
+        {/* Vertical lines */}
+        {Array.from({ length: cols + 1 }).map((_, i) => (
+          <line key={`v${i}`} x1={i * gridSize} y1={0} x2={i * gridSize} y2={gridH} />
+        ))}
+        {/* Horizontal lines */}
+        {Array.from({ length: rows + 1 }).map((_, i) => (
+          <line key={`h${i}`} x1={0} y1={i * gridSize} x2={gridW} y2={i * gridSize} />
+        ))}
+      </g>
+      {/* Border */}
+      <rect
+        x={0}
+        y={0}
+        width={gridW}
+        height={gridH}
+        fill="none"
+        stroke={borderColor}
+        strokeWidth={borderWidth}
+        rx={8}
+      />
+    </svg>
+  );
+}
+
 function useWindowWidthAndOrientation() {
   const [state, setState] = React.useState(() => {
     if (typeof window !== 'undefined') {
@@ -114,79 +180,41 @@ export default function ParallaxHero() {
   const { width, height, orientation } = useWindowWidthAndOrientation();
   const animConfigs = useMemo(() => getAnimConfigs(width), [width]);
   const { scrollY } = useViewportScroll();
-  // Parallax range: 0 to 400px scroll
   const scrollRange = [0, 400];
-
-  // For exit: as you scroll down, elements move OUT toward their entry direction; scroll up, they move IN to final position
-  // So, at scrollY=0, elements are in final position; at scrollY=400, they're back at their entry (offscreen) position
 
   return (
     <section className={styles.heroSection}>
       <div className={styles.heroContainer}>
-        {/* Grid Paper as Frame, always centered, 25px padding, rotates in portrait */}
-        <motion.img
-          src={`/frontpage/5SketchedGrid.png`}
-          alt="Grid Paper Frame"
-          className={`${styles.heroImage} ${styles.gridFrame}`}
-          initial={{ scale: animConfigs[5].scale[1], opacity: 0, rotate: orientation === 'portrait' ? 90 : 0 }}
-          animate={{ scale: animConfigs[5].scale[1], opacity: 1, rotate: orientation === 'portrait' ? 90 : 0 }}
-          transition={{ type: 'spring', stiffness: 80, damping: 18, delay: animConfigs[5].delay, duration: animConfigs[5].duration }}
-          style={{
-            zIndex: 2,
-            left: '50%',
-            top: '50%',
-            transform: `translate(-50%, -50%) rotate(${orientation === 'portrait' ? 90 : 0}deg)`,
-            width: `calc(100vw - 50px)`,
-            height: `auto`,
-            maxWidth: `calc(100vw - 50px)`,
-            maxHeight: `calc(100vh - 50px)`,
-            minWidth: 0,
-            minHeight: 0,
-            padding: 0,
-            boxSizing: 'border-box',
-          }}
-          loading="lazy"
-        />
-        {/* Hero Message Centered Above Grid, semi-opaque but accessible */}
-        <div className={styles.heroMessage} style={{
-          background: 'rgba(255,255,255,0.82)',
-          color: '#111',
-          textShadow: '0 2px 8px rgba(255,255,255,0.12), 0 1px 0 #fff',
-          border: '1.5px solid rgba(0,0,0,0.07)',
-        }}>
-          <h1>Better Experiences. Real Results.</h1>
-          <p>Quentin Little - User Experience Designer</p>
-          <p>Where business needs and user needs align, every click is a step toward success.</p>
-          <p>Explore hands-on case studies that show not just what was built—but why it mattered, for people and the bottom line.</p>
-        </div>
-        {/* Animated Elements */}
+        {/* SVG Grid Paper Frame, lowest z-index, 25px left/right margin, rotates in portrait */}
+        <GridPaperSVG width={width} height={height} orientation={orientation} />
+        {/* Animated Elements (z-index 2, above grid, below hero text, all scale 1:1) */}
         {images.map((img, i) => {
           if (i === 5) return null; // skip grid frame
           const cfg = animConfigs[i];
-          // Exit transforms: at scrollY=0, elements are in final position; at scrollY=400, they're back at entry (offscreen)
-          const y = useTransform(scrollY, scrollRange, [0, cfg.y]);
-          const x = useTransform(scrollY, scrollRange, [0, cfg.x]);
+          // Bleed off canvas: increase x/y offsets for more dramatic entry/exit
+          const y = useTransform(scrollY, scrollRange, [0, cfg.y * BLEED_MULTIPLIER]);
+          const x = useTransform(scrollY, scrollRange, [0, cfg.x * BLEED_MULTIPLIER]);
           const rotate = useTransform(scrollY, scrollRange, [0, cfg.rotate]);
-          const scale = useTransform(scrollY, scrollRange, [cfg.scale[1], cfg.scale[0]]);
+          const scale = useTransform(scrollY, scrollRange, [cfg.scale[1] * ELEMENT_SCALE, cfg.scale[0] * ELEMENT_SCALE]);
           return (
             <motion.img
               key={img}
               src={`/frontpage/${img}`}
               alt={img.replace('.png', '')}
               className={`${styles.heroImage} ${styles[`img${i}`]}`}
-              style={{ y, x, rotate, scale, willChange: 'transform', zIndex: 3 + i }}
+              style={{ y, x, rotate, scale, willChange: 'transform', zIndex: 2 }}
               initial={{
-                y: cfg.y,
-                x: cfg.x,
+                y: cfg.y * BLEED_MULTIPLIER,
+                x: cfg.x * BLEED_MULTIPLIER,
                 rotate: cfg.rotate,
-                scale: cfg.scale[0],
+                scale: cfg.scale[0] * ELEMENT_SCALE,
                 opacity: 0,
               }}
               animate={{
                 y: 0,
                 x: 0,
                 rotate: 0,
-                scale: cfg.scale[1],
+                scale: cfg.scale[1] * ELEMENT_SCALE,
                 opacity: 1,
               }}
               transition={{
@@ -201,6 +229,19 @@ export default function ParallaxHero() {
             />
           );
         })}
+        {/* Hero Message Centered Above Grid, semi-opaque but accessible (z-index 10) */}
+        <div className={styles.heroMessage} style={{
+          background: 'rgba(255,255,255,0.82)',
+          color: '#111',
+          textShadow: '0 2px 8px rgba(255,255,255,0.12), 0 1px 0 #fff',
+          border: '1.5px solid rgba(0,0,0,0.07)',
+          zIndex: 10,
+        }}>
+          <h1>Better Experiences. Real Results.</h1>
+          <p>Quentin Little - User Experience Designer</p>
+          <p>Where business needs and user needs align, every click is a step toward success.</p>
+          <p>Explore hands-on case studies that show not just what was built—but why it mattered, for people and the bottom line.</p>
+        </div>
       </div>
     </section>
   );
