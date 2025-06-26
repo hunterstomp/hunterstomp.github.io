@@ -12,6 +12,7 @@
     "@sanity/client": "^5.4.2",
     "exifr": "^7.1.3",
     "fast-glob": "^3.3.3",
+    "framer-motion": "^12.19.1",
     "next": "^15.3.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

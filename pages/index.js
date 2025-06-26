@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { sanity } from '../lib/sanity'
+import Navigation from '../components/Navigation'
+import ParallaxHero from '../components/ParallaxHero'
 
 const CASE_STUDY_LIST_QUERY = `
 *[_type == "caseStudy"]{
@@ -10,6 +12,7 @@ const CASE_STUDY_LIST_QUERY = `
   company,
   summary,
   tags,
+  heroImage
 }
 `
 
@@ -31,88 +34,107 @@ export default function Home({ caseStudies }) {
         <meta property="og:title" content="Hunter Stomp - UX Designer & Researcher" />
         <meta property="og:description" content="UX Designer and Researcher specializing in user experience design, research, and digital product design. View my case studies and portfolio." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://hunterstomp.com/" />
+        <meta property="og:url" content="https://portfolio.q10ux.com/" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Hunter Stomp - UX Designer & Researcher" />
         <meta name="twitter:description" content="UX Designer and Researcher specializing in user experience design, research, and digital product design." />
       </Head>
       
-      <div style={{ maxWidth: 960, margin: "auto", padding: 32 }}>
-        <header style={{ textAlign: "center", marginBottom: 48 }}>
-          <h1 style={{ fontSize: "2.5rem", marginBottom: 16 }}>Hunter Stomp</h1>
-          <p style={{ fontSize: "1.2rem", color: "#666", marginBottom: 24 }}>
-            UX Designer & Researcher
-          </p>
-          <p style={{ fontSize: "1rem", color: "#888", maxWidth: 600, margin: "auto", lineHeight: 1.6 }}>
-            I specialize in creating user-centered digital experiences through research, design, and strategic thinking. 
-            My work focuses on solving complex problems with intuitive, accessible, and engaging solutions.
-          </p>
-        </header>
+      <Navigation />
+      
+      <main className="main-content">
+        {/* Parallax Hero Section */}
+        <ParallaxHero />
 
-        <section style={{ marginBottom: 48 }}>
-          <h2 style={{ marginBottom: 24 }}>Featured Case Studies</h2>
-          <div style={{ display: "grid", gap: 24 }}>
-            {caseStudies.map(cs => (
-              <div key={cs._id} style={{ 
-                border: "1px solid #eee", 
-                borderRadius: 8, 
-                padding: 24,
-                transition: "transform 0.2s, box-shadow 0.2s"
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)"
-                e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)"
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = "translateY(0)"
-                e.currentTarget.style.boxShadow = "none"
-              }}
-              >
-                <Link href={`/case-studies/${cs.slug.current}`} style={{ textDecoration: "none", color: "inherit" }}>
-                  <div>
-                    <h3 style={{ marginBottom: 8, color: "#333" }}>{cs.title}</h3>
-                    <p style={{ color: "#666", marginBottom: 8 }}>{cs.company}</p>
-                    <p style={{ fontSize: "0.9rem", color: "#888", lineHeight: 1.5 }}>
-                      {cs.summary}
-                    </p>
-                    <div style={{ marginTop: 12 }}>
-                      {cs.tags?.map(tag => (
-                        <span key={tag} style={{ 
-                          background: "#f0f0f0", 
-                          borderRadius: 12, 
-                          padding: "4px 8px", 
-                          marginRight: 8, 
-                          fontSize: "0.8rem",
-                          color: "#666"
-                        }}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-          <div style={{ textAlign: "center", marginTop: 32 }}>
-            <Link href="/case-studies/" style={{ 
-              background: "#007acc", 
-              color: "white", 
-              padding: "12px 24px", 
-              borderRadius: 6, 
-              textDecoration: "none",
-              fontWeight: 500,
-              display: "inline-block"
-            }}>
-              View All Case Studies
+        {/* Hero Section */}
+        <section className="hero">
+          <div className="hero-content">
+            <h1>Better Experiences. Real Results.</h1>
+            <p>Creating user-centered digital experiences through research, design, and strategic thinking</p>
+            <Link href="/case-studies" passHref legacyBehavior>
+              <a className="btn">View My Work</a>
             </Link>
           </div>
         </section>
 
-        <footer style={{ textAlign: "center", color: "#888", fontSize: "0.9rem" }}>
-          <p>© 2024 Hunter Stomp. All rights reserved.</p>
+        {/* Featured Case Studies Section */}
+        <section className="section">
+          <div className="container">
+            <div className="text-center mb-4">
+              <h2>Featured Case Studies</h2>
+              <p>Explore my latest UX projects and design solutions</p>
+            </div>
+            
+            <div className="case-studies-grid">
+              {caseStudies.map(cs => (
+                <div key={cs._id} className="case-study-card">
+                  <div 
+                    className="case-study-image"
+                    style={{
+                      backgroundImage: cs.heroImage?.asset?.url 
+                        ? `url(${cs.heroImage.asset.url})`
+                        : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    }}
+                  >
+                    <div className="case-study-overlay">
+                      <Link href={`/case-studies/${cs.slug.current}`} passHref legacyBehavior>
+                        <a className="btn">View Case Study</a>
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="case-study-content">
+                    <h3 className="case-study-title">{cs.title}</h3>
+                    <p className="case-study-company">{cs.company}</p>
+                    <p className="case-study-summary">{cs.summary}</p>
+                    <div className="case-study-tags">
+                      {cs.tags?.map(tag => (
+                        <span key={tag} className="tag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <div className="text-center mt-4">
+              <Link href="/case-studies" passHref legacyBehavior>
+                <a className="btn btn-secondary">View All Case Studies</a>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section className="section" style={{ background: 'var(--background-dark)' }}>
+          <div className="container">
+            <div className="text-center">
+              <h2>About Me</h2>
+              <p style={{ maxWidth: '600px', margin: '0 auto' }}>
+                I specialize in creating user-centered digital experiences through research, design, and strategic thinking. 
+                My work focuses on solving complex problems with intuitive, accessible, and engaging solutions that drive 
+                meaningful user outcomes and business results.
+              </p>
+              <div style={{ marginTop: 'var(--spacing-xl)' }}>
+                <Link href="/about" passHref legacyBehavior>
+                  <a className="btn">Learn More About Me</a>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer style={{ 
+          background: 'var(--secondary-color)', 
+          color: 'white', 
+          padding: 'var(--spacing-2xl) 0',
+          textAlign: 'center'
+        }}>
+          <div className="container">
+            <p>© 2024 Q10UX Design.  All rights reserved.</p>
+          </div>
         </footer>
-      </div>
+      </main>
     </>
   )
 } 

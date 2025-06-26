@@ -1,0 +1,126 @@
+.heroSection {
+  position: relative;
+  width: 100vw;
+  min-height: 80vh;
+  overflow: hidden;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroContainer {
+  position: relative;
+  width: 100vw;
+  height: 80vh;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.heroImage {
+  position: absolute;
+  will-change: transform;
+  pointer-events: none;
+  user-select: none;
+  max-width: 22vw;
+  max-height: 22vh;
+  transition: filter 0.2s;
+}
+
+.gridFrame {
+  /* Sizing and centering now handled inline for perfect centering and padding */
+  position: absolute;
+  z-index: 2;
+  opacity: 0.95;
+  filter: drop-shadow(0 4px 32px rgba(0,0,0,0.08));
+  /* Remove width, height, max-width, max-height here */
+}
+
+.heroMessage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  color: #222;
+  border-radius: 18px;
+  padding: 2.5rem 2.5vw 2.5rem 2.5vw;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+  font-family: 'Bebas Neue', 'Libre Franklin', 'sans-serif';
+  /* background and border now handled inline for accessibility */
+}
+
+.heroMessage h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.04em;
+}
+
+.heroMessage p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+/* Example positions for each image (tweak as needed) */
+.img0 { left: 8vw; top: 12vh; z-index: 5; }
+.img1 { left: 60vw; top: 7vh; z-index: 6; }
+.img2 { left: 75vw; top: 30vh; z-index: 7; }
+.img3 { left: 20vw; top: 60vh; z-index: 8; }
+.img4 { left: 10vw; top: 65vh; z-index: 9; }
+.img5 { display: none; }
+.img6 { left: 5vw; top: 5vh; z-index: 10; }
+.img7 { left: 80vw; top: 10vh; z-index: 11; }
+.img8 { left: 85vw; top: 60vh; z-index: 12; }
+.img9 { left: 2vw; top: 30vh; z-index: 13; }
+.img10 { left: 50vw; top: 70vh; z-index: 14; }
+.img11 { left: 70vw; top: 5vh; z-index: 15; }
+.img12 { left: 90vw; top: 40vh; z-index: 16; }
+.img13 { left: 15vw; top: 75vh; z-index: 17; }
+.img14 { left: 40vw; top: 2vh; z-index: 18; }
+.img15 { left: 5vw; top: 80vh; z-index: 19; }
+.img16 { left: 80vw; top: 75vh; z-index: 20; }
+
+@media (max-width: 900px) {
+  .heroContainer {
+    height: 60vh;
+  }
+  .gridFrame {
+    width: 95vw;
+    max-width: 98vw;
+    max-height: 60vh;
+  }
+  .heroMessage {
+    font-size: 1rem;
+    padding: 1.2rem 2vw 1.2rem 2vw;
+  }
+  .heroMessage h1 {
+    font-size: 2rem;
+  }
+  .heroImage {
+    max-width: 30vw;
+    max-height: 18vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .heroContainer {
+    height: 45vh;
+  }
+  .gridFrame {
+    width: 110vw;
+    max-width: 110vw;
+    max-height: 45vh;
+  }
+  .heroMessage {
+    font-size: 0.95rem;
+    padding: 0.7rem 1vw 0.7rem 1vw;
+  }
+  .heroMessage h1 {
+    font-size: 1.2rem;
+  }
+  .heroImage {
+    max-width: 40vw;
+    max-height: 12vh;
+  }
+} 

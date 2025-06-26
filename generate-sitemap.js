@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { sanity } = require('./lib/sanity')
 
-const SITE_URL = 'https://hunterstomp.com'
+const SITE_URL = 'https://portfolio.q10ux.com'
 
 async function fetchSlugs() {
   // Fetch all published case study slugs from Sanity

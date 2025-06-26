@@ -3,6 +3,7 @@ import { sanity } from '../../lib/sanity'
 import { PortableText } from '@portabletext/react'
 import { useState } from 'react'
 import Head from 'next/head'
+import Navigation from '../../components/Navigation'
 
 const CASE_STUDY_DETAIL_QUERY = `
 *[_type == "caseStudy" && slug.current == $slug][0]{
@@ -16,6 +17,7 @@ const CASE_STUDY_DETAIL_QUERY = `
   ndaProtected,
   personaAccess,
   body,
+  heroImage,
   flows[]{
     flowName,
     flowDescription,
@@ -209,138 +211,179 @@ export default function CaseStudyDetail({ caseStudy }) {
         <meta property="og:description" content={caseStudy.summary || `UX Case Study: ${caseStudy.title}`} />
       </Head>
       
-      <div style={{ maxWidth: 960, margin: "auto", padding: 32 }}>
-        <h1>{caseStudy.title}</h1>
-        {caseStudy.company && <h3 style={{ color: "#888" }}>{caseStudy.company}</h3>}
+      <Navigation />
+      
+      <main className="main-content">
+        {/* Hero Section */}
+        <section 
+          className="case-study-hero"
+          style={{
+            backgroundImage: caseStudy.heroImage?.asset?.url 
+              ? `url(${caseStudy.heroImage.asset.url})`
+              : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+          }}
+        >
+          <div className="case-study-hero-content">
+            <h1>{caseStudy.title}</h1>
+            {caseStudy.company && <p className="company">{caseStudy.company}</p>}
+          </div>
+        </section>
         
-        {caseStudy.summary && (
-          <div style={{ margin: "16px 0", padding: "16px", background: "#f5f5f5", borderRadius: "8px" }}>
-            <strong>Summary:</strong> {caseStudy.summary}
-          </div>
-        )}
-
-        <div style={{ marginBottom: 16 }}>
-          {caseStudy.tags?.map(tag => (
-            <span key={tag} style={{ 
-              padding: "3px 8px", 
-              background: "#e3e3fa", 
-              marginRight: 4, 
-              borderRadius: 8, 
-              fontSize: 12 
-            }}>
-              {tag}
-            </span>
-          ))}
-          {caseStudy.ndaProtected && (
-            <span style={{ 
-              padding: "3px 8px", 
-              background: "#ffebee", 
-              color: "#c62828",
-              marginLeft: 8, 
-              borderRadius: 8, 
-              fontSize: 12,
-              fontWeight: "bold"
-            }}>
-              NDA Protected
-            </span>
-          )}
-        </div>
-
-        {caseStudy.youtubeEmbed && (
-          <div style={{ margin: "24px 0" }}>
-            <iframe
-              width="100%"
-              height="400"
-              src={caseStudy.youtubeEmbed}
-              frameBorder="0"
-              allowFullScreen
-              style={{ borderRadius: 8 }}
-            />
-          </div>
-        )}
-
-        {caseStudy.body && (
-          <div style={{ margin: "24px 0", color: "#222", lineHeight: 1.6 }}>
-            <PortableText value={caseStudy.body} />
-          </div>
-        )}
-
-        {caseStudy.flows?.map(flow => (
-          <div key={flow.flowName} style={{ marginTop: 32, borderTop: "2px solid #eee", paddingTop: 24 }}>
-            <h2 style={{ color: "#333", marginBottom: 8 }}>{flow.flowName}</h2>
-            {flow.flowDescription && (
-              <div style={{ fontStyle: "italic", color: "#666", marginBottom: 16 }}>
-                {flow.flowDescription}
+        <div className="container">
+          <div className="section">
+            {/* Summary Section */}
+            {caseStudy.summary && (
+              <div style={{ 
+                margin: "var(--spacing-xl) 0", 
+                padding: "var(--spacing-xl)", 
+                background: "var(--background-dark)", 
+                borderRadius: "12px" 
+              }}>
+                <h3>Summary</h3>
+                <p>{caseStudy.summary}</p>
               </div>
             )}
-            <div style={{ 
-              display: "grid", 
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", 
-              gap: 16, 
-              marginTop: 16 
-            }}>
-              {flow.images?.map((img, idx) => (
-                <div key={idx} style={{ 
-                  textAlign: "center", 
-                  border: "1px solid #ddd", 
-                  borderRadius: 8, 
-                  overflow: "hidden",
-                  cursor: "pointer",
-                  transition: "transform 0.2s"
-                }}
-                onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.02)"}
-                onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
-                onClick={() => openLightbox(img, flow.flowName, idx)}
-                >
-                  <img 
-                    src={img.asset?.url} 
-                    alt={img.caption || img.asset?._id || 'Case study image'} 
-                    style={{ 
-                      width: "100%", 
-                      height: "150px", 
-                      objectFit: "cover",
-                      display: "block"
-                    }} 
-                  />
-                  <div style={{ 
-                    padding: 8, 
-                    fontSize: 12, 
-                    background: "#f9f9f9",
-                    minHeight: "40px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}>
-                    {img.caption || `Image ${idx + 1}`}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
 
-        {/* Assets Section */}
-        {caseStudy.assets && caseStudy.assets.length > 0 && (
-          <div style={{ margin: '32px 0', padding: '16px', background: '#f8f8ff', borderRadius: 8 }}>
-            <h2 style={{ marginBottom: 12 }}>Project Assets</h2>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {caseStudy.assets.map((asset, idx) => (
-                <li key={idx} style={{ marginBottom: 12 }}>
-                  {asset.file && asset.file.asset && asset.file.asset.url ? (
-                    <a href={asset.file.asset.url} download target="_blank" rel="noopener noreferrer" style={{ fontWeight: 500, color: '#2a4d9b', textDecoration: 'underline' }}>
-                      {asset.label || `Download file ${idx + 1}`}
-                    </a>
-                  ) : (
-                    <span style={{ color: '#aaa' }}>No file</span>
-                  )}
-                  {asset.description && (
-                    <div style={{ fontSize: 13, color: '#555', marginTop: 2 }}>{asset.description}</div>
-                  )}
-                </li>
-              ))}
-            </ul>
+            {/* Tags and Badges */}
+            <div style={{ marginBottom: "var(--spacing-xl)" }}>
+              <div className="case-study-tags" style={{ marginBottom: "var(--spacing-md)" }}>
+                {caseStudy.tags?.map(tag => (
+                  <span key={tag} className="tag">{tag}</span>
+                ))}
+              </div>
+              {caseStudy.ndaProtected && (
+                <span style={{ 
+                  padding: "var(--spacing-xs) var(--spacing-sm)", 
+                  background: "#ffebee", 
+                  color: "#c62828",
+                  marginRight: "var(--spacing-sm)", 
+                  borderRadius: "20px", 
+                  fontSize: "0.85rem",
+                  fontWeight: "bold"
+                }}>
+                  NDA Protected
+                </span>
+              )}
+            </div>
+
+            {/* YouTube Embed */}
+            {caseStudy.youtubeEmbed && (
+              <div style={{ margin: "var(--spacing-2xl) 0" }}>
+                <iframe
+                  width="100%"
+                  height="400"
+                  src={caseStudy.youtubeEmbed}
+                  frameBorder="0"
+                  allowFullScreen
+                  style={{ borderRadius: "12px" }}
+                />
+              </div>
+            )}
+
+            {/* Body Content */}
+            {caseStudy.body && (
+              <div style={{ margin: "var(--spacing-2xl) 0", color: "var(--text-primary)", lineHeight: 1.6 }}>
+                <PortableText value={caseStudy.body} />
+              </div>
+            )}
+
+            {/* Flows Section */}
+            {caseStudy.flows?.map(flow => (
+              <div key={flow.flowName} style={{ 
+                marginTop: "var(--spacing-3xl)", 
+                borderTop: "2px solid var(--border-color)", 
+                paddingTop: "var(--spacing-2xl)" 
+              }}>
+                <h2 style={{ color: "var(--text-primary)", marginBottom: "var(--spacing-md)" }}>{flow.flowName}</h2>
+                {flow.flowDescription && (
+                  <div style={{ fontStyle: "italic", color: "var(--text-secondary)", marginBottom: "var(--spacing-xl)" }}>
+                    {flow.flowDescription}
+                  </div>
+                )}
+                <div style={{ 
+                  display: "grid", 
+                  gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", 
+                  gap: "var(--spacing-lg)", 
+                  marginTop: "var(--spacing-xl)" 
+                }}>
+                  {flow.images?.map((img, idx) => (
+                    <div key={idx} style={{ 
+                      textAlign: "center", 
+                      border: "1px solid var(--border-color)", 
+                      borderRadius: "12px", 
+                      overflow: "hidden",
+                      cursor: "pointer",
+                      transition: "transform 0.2s, box-shadow 0.2s"
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.02)"}
+                    onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
+                    onClick={() => openLightbox(img, flow.flowName, idx)}
+                    >
+                      <img 
+                        src={img.asset?.url} 
+                        alt={img.caption || img.asset?._id || 'Case study image'} 
+                        style={{ 
+                          width: "100%", 
+                          height: "200px", 
+                          objectFit: "cover",
+                          display: "block"
+                        }} 
+                      />
+                      <div style={{ 
+                        padding: "var(--spacing-md)", 
+                        fontSize: "0.9rem", 
+                        background: "var(--background-dark)",
+                        minHeight: "60px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}>
+                        {img.caption || `Image ${idx + 1}`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Assets Section */}
+            {caseStudy.assets && caseStudy.assets.length > 0 && (
+              <div style={{ 
+                margin: 'var(--spacing-3xl) 0', 
+                padding: 'var(--spacing-xl)', 
+                background: 'var(--background-dark)', 
+                borderRadius: "12px" 
+              }}>
+                <h2 style={{ marginBottom: "var(--spacing-lg)" }}>Project Assets</h2>
+                <ul style={{ listStyle: 'none', padding: 0 }}>
+                  {caseStudy.assets.map((asset, idx) => (
+                    <li key={idx} style={{ marginBottom: "var(--spacing-lg)" }}>
+                      {asset.file && asset.file.asset && asset.file.asset.url ? (
+                        <a 
+                          href={asset.file.asset.url} 
+                          download 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="btn btn-secondary"
+                          style={{ display: 'inline-block' }}
+                        >
+                          {asset.label || `Download file ${idx + 1}`}
+                        </a>
+                      ) : (
+                        <span style={{ color: 'var(--text-light)' }}>No file</span>
+                      )}
+                      {asset.description && (
+                        <div style={{ fontSize: "0.9rem", color: "var(--text-secondary)", marginTop: "var(--spacing-xs)" }}>
+                          {asset.description}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
         <Lightbox
           isOpen={!!lightboxImage}
@@ -349,7 +392,7 @@ export default function CaseStudyDetail({ caseStudy }) {
           notes={getCurrentNotes()}
           onNotesChange={handleNotesChange}
         />
-      </div>
+      </main>
     </>
   )
 }
