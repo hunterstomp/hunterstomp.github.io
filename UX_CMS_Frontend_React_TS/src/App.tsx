@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import sanityClient from '@sanity/client'
+import { createClient } from '@sanity/client'
 
-const client = sanityClient({
+const client = createClient({
   projectId: 'q5gam10s',
   dataset: 'production',
   apiVersion: '2023-01-01',

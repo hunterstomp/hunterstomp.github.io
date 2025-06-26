@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: 'https://hunterstomp.com',
+  siteUrl: 'https://portfolio.q10ux.com',
   generateRobotsTxt: true,
 } 

@@ -2,9 +2,9 @@
   "name": "ux-cms-frontend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "sitemap": "next-sitemap"
   },
   "dependencies": {
@@ -12,6 +12,7 @@
     "@sanity/client": "^5.4.2",
     "exifr": "^7.1.3",
     "fast-glob": "^3.3.3",
+    "next": "^15.3.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "sanitize-filename": "^1.6.3",
@@ -21,7 +22,7 @@
   "devDependencies": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "typescript": "^5.0.0",
-    "next-sitemap": "^4.0.0"
+    "next-sitemap": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://portfolio.q10ux.com
+
+# Sitemaps
+Sitemap: https://portfolio.q10ux.com/sitemap.xml
