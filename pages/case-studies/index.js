@@ -91,9 +91,7 @@ export default function CaseStudiesIndex({ caseStudies, allTags }) {
                     }}
                   >
                     <div className="case-study-overlay">
-                      <Link href={`/case-studies/${cs.slug.current}`} passHref legacyBehavior>
-                        <a className="btn">View Case Study</a>
-                      </Link>
+                      <Link href={`/case-studies/${cs.slug.current}`} className="btn">View Case Study</Link>
                     </div>
                   </div>
                   <div className="case-study-content">
@@ -113,9 +111,7 @@ export default function CaseStudiesIndex({ caseStudies, allTags }) {
             {filtered.length === 0 && (
               <div className="text-center">
                 <p>No case studies found for the selected category.</p>
-                <Link href="/case-studies" passHref legacyBehavior>
-                  <a className="btn btn-secondary">View All Case Studies</a>
-                </Link>
+                <Link href="/case-studies" className="btn btn-secondary">View All Case Studies</Link>
               </div>
             )}
           </div>
