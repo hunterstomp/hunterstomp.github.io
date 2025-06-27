@@ -29,14 +29,14 @@ export default function Home({ caseStudies }) {
   return (
     <>
       <Head>
-        <title>Hunter Stomp - UX Designer & Researcher</title>
+        <title>Q10UX - User Experience Portfolio of Quentin Little</title>
         <meta name="description" content="UX Designer and Researcher specializing in user experience design, research, and digital product design. View my case studies and portfolio." />
-        <meta property="og:title" content="Hunter Stomp - UX Designer & Researcher" />
+        <meta property="og:title" content="Quentin Little - User Experience Designer / Researcher" />
         <meta property="og:description" content="UX Designer and Researcher specializing in user experience design, research, and digital product design. View my case studies and portfolio." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://portfolio.q10ux.com/" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Hunter Stomp - UX Designer & Researcher" />
+        <meta name="twitter:title" content="Quentin Little" />
         <meta name="twitter:description" content="UX Designer and Researcher specializing in user experience design, research, and digital product design." />
       </Head>
       

@@ -27,7 +27,7 @@ export default function Navigation() {
         <Link href="/" passHref legacyBehavior>
           <a className="nav-logo" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <img src="/frontpage/favicons/apple-touch-icon.png" alt="Hunter Stomp Logo" width={36} height={36} style={{ borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} />
-            <span>Q10UX - UX Portfolio for Quentin Little</span>
+            <span>UX Portfolio for Quentin Little</span>
           </a>
         </Link>
         <button
